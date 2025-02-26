@@ -10,16 +10,21 @@ dotenv.config()
 const app = express()
 app.use(express.json())
 app.use("/",router)
-router.post("/login",(req,res)=>{
-    const {email,password} = req.body
-    if (!email ){
-        console.log("Email shouldn't be empty")
+router.post("/login", async(req,res)=>{
+    try{
+        const {email,password} = await req.body
+        if (!email ){
+            console.log("Email shouldn't be empty")
+        }
+        if (!password){
+            console.log("Password shouldn't be empty")
+        }
+        if (email && password){
+            res.status(201).json({comment:"Login successful"})
+        }
     }
-    if (!password){
-        console.log("Password shouldn't be empty")
-    }
-    if (email && password){
-        res.status(201).json({comment:"Login successful"})
+    catch(error){
+        console.log("some error occured")
     }
 })
 
